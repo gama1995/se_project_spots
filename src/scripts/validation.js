@@ -42,7 +42,7 @@ const toggleButtonState = (inputList, buttonEl, config) => {
         disableButton(buttonEl, config);
 
     } else {
-buttonEl.classList.remove('disabled');
+buttonEl.classList.remove('gray-modifier');
 buttonEl.classList.remove(config.inactiveButtonClass);
 buttonEl.disabled = false;
 

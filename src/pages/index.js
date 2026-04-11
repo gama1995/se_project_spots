@@ -72,12 +72,21 @@ let selectedCard, selectedCardId;
 
 function handleDeleteCardSubmit(evt) {
   evt.preventDefault();
+
+  const submitButton = evt.submitter;
+  submitButton.textContent = "Deleting...";
+  setButtonText(submitButton, true);
+
   api.deleteCard(selectedCardId)
   .then(() => {
     selectedCard.remove();
     closeModal(deleteAvatarModal);
   })
-  .catch(console.error);
+  .catch(console.error)
+  .finally(() => {
+    submitButton.textContent = "Deleting...";
+    setButtonText(submitButton, false); 
+  });
 }
 
 
@@ -92,9 +101,11 @@ function handleLike(evt, id ) {
 const isLiked = evt.target.classList.contains("card__like-btn_active");
 api.checkLikeStatus(id, isLiked)
 .then((updatedCard) => {
-  evt.target.classList.toggle("card__like-btn_active");
-  const likeCountEl = evt.target.querySelector(".card__like-count");
-  likeCountEl.textContent = updatedCard.likes.length;
+  if (updateCard.isLiked) {
+    evt.target.classList.add("card__like-btn_active");
+  } else {
+  evt.target.classList.remove("card__like-btn_active");
+}
 })
 .catch(console.error);
 }
@@ -122,7 +133,12 @@ cardImageEl.src = data.link;
 cardImageEl.alt = data.name;
 cardTitleEl.textContent = data.name;
 
-likeButton.addEventListener("click", (evt) => handleLike(evt, data.id)
+isLiked = data.likes.some((like) => like._id === api._userId);
+if (data.isLiked) {
+  likeButton.classList.add("card__like-btn_active");
+}
+
+likeButton.addEventListener("click", (evt) => handleLike(evt, data._id)
 );
 
 deleteButton.addEventListener("click", () => 
@@ -150,12 +166,34 @@ editProfileBtn.addEventListener("click", function () {
     openModal(editProfileModal);
 });
 
+function handleEscClose(evt) {
+  if (evt.key === "Escape") {
+    const openedModal = document.querySelector(".modal_is-opened");
+    if (openedModal) {
+      closeModal(openedModal);
+    }
+  }
+}
+
+function handleOverlayClick(evt) {
+  if (evt.target.classList.contains("modal")) {
+    closeModal(evt.target);
+  }
+}
+
 function openModal(modal) {
   modal.classList.add("modal_is-opened");
+
+   document.addEventListener("keydown", handleEscClose);
+  modal.addEventListener("mousedown", handleOverlayClick);
+
 }
 
 function closeModal(modal) {
   modal.classList.remove("modal_is-opened");
+
+  document.removeEventListener("keydown", handleEscClose);
+  modal.removeEventListener("mousedown", handleOverlayClick);
 }  
 
 editProfileCloseBtn.addEventListener("click", function () {
@@ -181,12 +219,21 @@ avatarProfileCloseBtn.addEventListener("click", function () {
 
 avatarPostForm.addEventListener("submit", function (evt) {
   evt.preventDefault();
+
+  const submitButton = evt.subitter;
+  submitButton.textContent = "Saving...";
+  setButtonText(submitButton, true);
+
   api.editUserAvatar({avatar: avatarPostInput.value})
   .then((updatedUserInfo) => {
     profileAvatarEl.src = updatedUserInfo.avatar;
     closeModal(avatarProfileModal);
   })
-  .catch(console.error);
+  .catch(console.error)
+  .finally(() => {
+    submitButton.textContent = "Save";  
+    setButtonText(submitButton, false);
+  });
 });
 
 deleteAvatarForm.addEventListener("submit", handleDeleteCardSubmit);
@@ -209,7 +256,11 @@ function handleNewPostSubmit(evt) {
    disableButton(newPostSubmitBtn, settings);
   closeModal(newPostModal);
 })
-  .catch(console.error);
+  .catch(console.error)
+  .finally(() => {
+    submitButton.textContent = "Save";
+    setButtonText(submitButton, false);
+  });
 }
 
 newPostModalForm.addEventListener("submit", handleNewPostSubmit);
@@ -217,17 +268,12 @@ newPostModalForm.addEventListener("submit", handleNewPostSubmit);
 function handleEditProfileSubmit(evt) {
     evt.preventDefault();
 
-    const submitButton = evt.submitter;
-    submitButton.textContent = "Saving...";
-      setButtonText(submitButton, true);
-
     api.editUserInfo({name:editProfileNameInput.value, about:editProfileDescriptionInput.value})
     .then((updatedUserInfo) => {
       profileNameEl.textContent = updatedUserInfo.name;
       profileDescriptionEl.textContent = updatedUserInfo.about;
       profileAvatarEl.src = updatedUserInfo.avatar;
     
-      closeModal(editProfileModal);
     })
     .catch(console.error)
     .finally(() => {
