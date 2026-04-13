@@ -211,6 +211,8 @@ avatarProfileCloseBtn.addEventListener("click", function () {
 });
 
   function handleAvatarSubmit() {
+    evt.preventDefault();
+
     function makerequest() {
 return api.editUserAvatar({avatar: avatarPostInput.value})
   .then((updatedUserInfo) => {
@@ -219,7 +221,7 @@ return api.editUserAvatar({avatar: avatarPostInput.value})
   });
 }
 
-handleSubmit(makerequest, evt);
+handleSubmit(makerequest, evt, "Saving...");
 }
 
 avatarPostForm.addEventListener("submit", handleAvatarSubmit);
@@ -227,6 +229,8 @@ avatarPostForm.addEventListener("submit", handleAvatarSubmit);
 deleteAvatarForm.addEventListener("submit", handleDeleteCardSubmit);
 
 function handleNewPostSubmit(evt) {
+  evt.preventDefault();
+
  function makerequest() {
 return api.addCard({
   name: newPostDescriptionEl.value,
@@ -240,6 +244,9 @@ return api.addCard({
       closeModal(newPostModal);
   });
 }
+
+handleSubmit(makerequest, evt, "Saving...");
+
 }
 
 newPostModalForm.addEventListener("submit", handleNewPostSubmit);
