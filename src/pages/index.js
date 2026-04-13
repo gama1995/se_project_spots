@@ -1,6 +1,6 @@
 import "../pages/index.css";
 import { resetValidation, disableButton, enableValidation, settings} from  '../scripts/validation.js';
-import { setButtonText} from '../utils/helpers.js';
+import { handleSubmit, setButtonText} from '../utils/helpers.js';
 import Api from '../utils/Api.js';
 
 
@@ -71,22 +71,17 @@ const previewImageEl = previewModal.querySelector(".modal__image");
 let selectedCard, selectedCardId;
 
 function handleDeleteCardSubmit(evt) {
-  evt.preventDefault();
-
-  const submitButton = evt.submitter;
-  submitButton.textContent = "Deleting...";
-  setButtonText(submitButton, true);
-
-  api.deleteCard(selectedCardId)
+  function makeRequest() {
+return api.deleteCard(selectedCardId)
   .then(() => {
     selectedCard.remove();
+    selectedCard = null;
+    selectedCardId = null;
     closeModal(deleteAvatarModal);
-  })
-  .catch(console.error)
-  .finally(() => {
-    submitButton.textContent = "Deleting...";
-    setButtonText(submitButton, false); 
   });
+}
+
+handleSubmit(makeRequest, evt, "Deleting...");
 }
 
 
@@ -101,7 +96,7 @@ function handleLike(evt, id ) {
 const isLiked = evt.target.classList.contains("card__like-btn_active");
 api.checkLikeStatus(id, isLiked)
 .then((updatedCard) => {
-  if (updateCard.isLiked) {
+  if (updatedCard.isLiked) {
     evt.target.classList.add("card__like-btn_active");
   } else {
   evt.target.classList.remove("card__like-btn_active");
@@ -133,7 +128,6 @@ cardImageEl.src = data.link;
 cardImageEl.alt = data.name;
 cardTitleEl.textContent = data.name;
 
-isLiked = data.likes.some((like) => like._id === api._userId);
 if (data.isLiked) {
   likeButton.classList.add("card__like-btn_active");
 }
@@ -216,70 +210,57 @@ avatarProfileCloseBtn.addEventListener("click", function () {
     closeModal(avatarProfileModal);
 });
 
-
-avatarPostForm.addEventListener("submit", function (evt) {
-  evt.preventDefault();
-
-  const submitButton = evt.subitter;
-  submitButton.textContent = "Saving...";
-  setButtonText(submitButton, true);
-
-  api.editUserAvatar({avatar: avatarPostInput.value})
+  function handleAvatarSubmit() {
+    function makerequest() {
+return api.editUserAvatar({avatar: avatarPostInput.value})
   .then((updatedUserInfo) => {
     profileAvatarEl.src = updatedUserInfo.avatar;
     closeModal(avatarProfileModal);
-  })
-  .catch(console.error)
-  .finally(() => {
-    submitButton.textContent = "Save";  
-    setButtonText(submitButton, false);
   });
-});
+}
+
+handleSubmit(makerequest, evt);
+}
+
+avatarPostForm.addEventListener("submit", handleAvatarSubmit);
 
 deleteAvatarForm.addEventListener("submit", handleDeleteCardSubmit);
 
-
 function handleNewPostSubmit(evt) {
-  evt.preventDefault();
-
-  const newPostValues = {
-   name: newPostDescriptionEl.value,
-    link: newPostImageEl.value,
-  };
-
-   api.addCard(newPostValues)
+ function makerequest() {
+return api.addCard({
+  name: newPostDescriptionEl.value,
+  link: newPostImageEl.value,
+ })
     .then((cardData) => {
       const cardElement = getCardElement(cardData);
       cardList.prepend(cardElement);
 
-   evt.target.reset();
-   disableButton(newPostSubmitBtn, settings);
-  closeModal(newPostModal);
-})
-  .catch(console.error)
-  .finally(() => {
-    submitButton.textContent = "Save";
-    setButtonText(submitButton, false);
+      disableButton(newPostSubmitBtn, settings);
+      closeModal(newPostModal);
   });
+}
 }
 
 newPostModalForm.addEventListener("submit", handleNewPostSubmit);
 
 function handleEditProfileSubmit(evt) {
-    evt.preventDefault();
-
-    api.editUserInfo({name:editProfileNameInput.value, about:editProfileDescriptionInput.value})
+    function makerequest() {
+    return api
+    .editUserInfo({
+      name:editProfileNameInput.value, 
+      about:editProfileDescriptionInput.value,
+    })
     .then((updatedUserInfo) => {
       profileNameEl.textContent = updatedUserInfo.name;
       profileDescriptionEl.textContent = updatedUserInfo.about;
       profileAvatarEl.src = updatedUserInfo.avatar;
-    
-    })
-    .catch(console.error)
-    .finally(() => {
-      submitButton.textContent = "Save";
-     setButtonText(submitButton, false);
-    });
+     
+      closeModal(editProfileModal);
+});
+}
+
+handleSubmit(makerequest, evt);
 }
 
 editProfileForm.addEventListener("submit", handleEditProfileSubmit);
