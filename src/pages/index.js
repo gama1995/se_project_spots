@@ -1,6 +1,6 @@
 import "../pages/index.css";
 import { resetValidation, disableButton, enableValidation, settings} from  '../scripts/validation.js';
-import { handleSubmit, setButtonText} from '../utils/helpers.js';
+import { handleSubmit, } from '../utils/helpers.js';
 import Api from '../utils/Api.js';
 
 
@@ -210,7 +210,7 @@ avatarProfileCloseBtn.addEventListener("click", function () {
     closeModal(avatarProfileModal);
 });
 
-  function handleAvatarSubmit() {
+  function handleAvatarSubmit(evt) {
     evt.preventDefault();
 
     function makerequest() {

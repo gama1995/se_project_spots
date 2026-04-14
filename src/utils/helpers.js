@@ -1,8 +1,8 @@
 export function renderLoading(
   button,
    isLoading,
-    loadingText = "Save",
-     defaultText = "Saving..."
+    loadingText = "Saving...",
+     defaultText = "Save"
     ) {
   if (isLoading) {
     button.textContent = loadingText;
@@ -17,7 +17,7 @@ export function handleSubmit(request, evt, loadingText = "Saving...") {
   const submitButton = evt.submitter;
   const initialText = submitButton.textContent;
 
-  renderLoading(true, submitButton, initialText, loadingText);
+  renderLoading(submitButton, true, loadingText, initialText);
 
   request()
     .then(() => {
@@ -25,6 +25,6 @@ export function handleSubmit(request, evt, loadingText = "Saving...") {
     })
     .catch(console.error)
     .finally(() => {
-      renderLoading(false, submitButton, initialText);
+     renderLoading(submitButton, false, loadingText, initialText);
     });
 }
