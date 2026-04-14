@@ -67,7 +67,7 @@ deleteCard(id) {
 } 
 
     getUserInfo() {
-        return fetch(`${this._baseUrl}/users/me`, {
+        return this._request(`${this._baseUrl}/users/me`, {
             headers: this._headers,
         });
     }
