@@ -7,7 +7,7 @@ import Api from '../utils/Api.js';
 const api = new Api({
   baseUrl: "https://around-api.en.tripleten-services.com/v1",
   headers: {
-    authorization: "979ab887-9e69-462e-b1a6-633c9b1e32d6",
+    authorization:"979ab887-9e69-462e-b1a6-633c9b1e32d6",
     "Content-Type": "application/json",
     
   },
@@ -60,8 +60,8 @@ const avatarPostForm = avatarProfileModal.querySelector(".modal__form");
 const avatarPostInput = avatarProfileModal.querySelector("#avatar-link-input");
 const avatarPostSubmitBtn = avatarProfileModal.querySelector(".modal__submit-btn");
 
-const deleteAvatarModal = document.querySelector("#delete-avatar-modal");
-const deleteAvatarForm = deleteAvatarModal.querySelector(".modal__form");
+const deleteCardModal = document.querySelector("#delete-card-modal");
+const deleteCardForm = deleteCardModal.querySelector(".modal__form");
 
 
 const previewModal = document.querySelector("#preview-modal");
@@ -77,7 +77,7 @@ return api.deleteCard(selectedCardId)
     selectedCard.remove();
     selectedCard = null;
     selectedCardId = null;
-    closeModal(deleteAvatarModal);
+    closeModal(deleteCardModal);
   });
 }
 
@@ -88,7 +88,7 @@ handleSubmit(makeRequest, evt, "Deleting...");
 function handleDeleteCard(cardElement, cardId) {
   selectedCard = cardElement;
   selectedCardId = cardId;
-  openModal(deleteAvatarModal);
+  openModal(deleteCardModal);
 }
 
 
@@ -226,7 +226,7 @@ handleSubmit(makerequest, evt, "Saving...");
 
 avatarPostForm.addEventListener("submit", handleAvatarSubmit);
 
-deleteAvatarForm.addEventListener("submit", handleDeleteCardSubmit);
+deleteCardForm.addEventListener("submit", handleDeleteCardSubmit);
 
 function handleNewPostSubmit(evt) {
   evt.preventDefault();

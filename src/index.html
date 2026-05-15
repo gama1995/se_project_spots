@@ -17,23 +17,21 @@
       <main class="content">
         <section class="profile page__section">
           <div class="profile__avatar-container">
-          <button class="profile__avatar-btn" type="button">
-          </button>
           <img
             src="<%= require('./images/avatar.jpg') %>"
             alt="User avatar"
             class="profile__avatar"
           />
           <div class="profile__avatar-overlay">
-            <button class="profile__avatar-edit-btn" type="button" aria-label="Edit avatar">
+          <button type="button" class="profile__avatar-btn" aria-label="Edit avatar">
               <img
-            class="profile__pencil-icon"
             src="<%= require('./images/pencil-light.svg') %>"
-            alt="Pencil icon"
+            alt=""
+            class="profile__pencil-icon"
           />
              <span class="profile__avatar-edit-text">Edit avatar</span>
-            </div>
             </button>
+            </div> 
           </div>
 
           <div class="profile__column">
@@ -192,7 +190,7 @@
           </div>
           </div>
 
-       <div class="modal" id="delete-avatar-modal">
+       <div class="modal" id="delete-card-modal">
         <div class="modal__container modal__container_type_delete-avatar">
           <button 
           type="button"

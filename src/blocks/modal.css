@@ -7,11 +7,17 @@
     position: fixed;
     top: 0;
     right: 0;
-    bottom: 0;
     left: 0;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.modal__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+    margin-top: 32px;
 }
 
 .modal_type_preview {
@@ -25,16 +31,36 @@
 }
 
 .modal__container {
-    max-width: 730px;
+    max-width: 630px;
     width: 100%;
     border-radius: 8px;
     background-color: #fff;
-    padding: 32px 50px;
+    padding: 32px;
     position: relative;
     box-sizing: border-box;
 }
 
-.modal__close-btn {
+.modal__container_type_delete-avatar {
+    max-width: 630px;
+    min-height: 280px;
+    padding: 40px;
+    box-sizing: border-box;
+}
+
+.modal__title_type_delete {
+max-width: 367px;
+margin: 0 0 32px;
+font-size: 32px;
+line-height: 1.2;
+}
+
+.modal__submit-btn_type_delete {
+    width: 156px;
+    height: 52px;
+    margin: 0;
+}
+
+.modal__close-btn { 
     background-image: url(../images/Close-icon.svg);
     width: 40px;
     height: 40px;
@@ -43,12 +69,13 @@
     background-repeat: no-repeat;
     position: absolute;
     top: 32px;
-    right: 50px;
+    right: 32px;
     padding: 0;
     border: 0;
     background-color: transparent;
     cursor: pointer;
-     opacity: 0.4;
+     opacity: 1;
+     transition: opacity 0.3s ease;
 }
 
 .modal__close-btn_type_preview {
@@ -58,12 +85,13 @@
 }
 
 .modal__close-btn:hover {
-    opacity: 1;
+    opacity: o.4;
 }
 
 
 .modal__title {
     margin: 0 0 32px;
+    margin-bottom: 24px;
     font-size: 32px; 
     line-height: 1.33; 
     font-weight: 500; 
@@ -120,18 +148,32 @@
     opacity: 0.7;
 }
 
+
 .modal__submit-btn {
     font-size: 16px;
     line-height: 1;
     color: #fcf5e5;
-    background-color: #212121;
+    background-color: #FF3333;
     border: none;
     border-radius: 8px;
     padding: 18px 0;
     width: 100%;
+    height: 50px;
     max-width: 156px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+}
+    
+.modal__cancel-btn {
+  width: 156px;
+  height: 52px;
+  margin-top: 8px;
+  border: none;
+  border-radius: 8px;
+  background-color: #212121;
+color: #fff;
+cursor: pointer;
+font-size: 16px;
 }
 
 .modal__image-container {
