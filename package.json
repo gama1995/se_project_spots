@@ -7,9 +7,9 @@
     "build": "webpack --mode production",
     "dev": "webpack serve --mode development"
   },
-   "author": "Daisy Gama",
-   "license": "ISC",
-     "devDependencies": {
+  "author": "Daisy Gama",
+  "license": "ISC",
+  "devDependencies": {
     "@babel/core": "7.18.9",
     "@babel/preset-env": "7.18.9",
     "autoprefixer": "10.4.7",

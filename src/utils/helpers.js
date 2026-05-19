@@ -1,9 +1,9 @@
 export function renderLoading(
   button,
-   isLoading,
-    loadingText = "Saving...",
-     defaultText = "Save"
-    ) {
+  isLoading,
+  loadingText = "Saving...",
+  defaultText = "Save"
+) {
   if (isLoading) {
     button.textContent = loadingText;
   } else {
@@ -25,6 +25,6 @@ export function handleSubmit(request, evt, loadingText = "Saving...") {
     })
     .catch(console.error)
     .finally(() => {
-     renderLoading(submitButton, false, loadingText, initialText);
+      renderLoading(submitButton, false, loadingText, initialText);
     });
 }
